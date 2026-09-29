@@ -1,0 +1,1967 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Farming AI Advisor</title>
+
+<style>
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f8f4;
+  color:#17351f
+}
+
+.navbar{
+  background:#166534;
+  color:#fff;
+  padding:15px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.brand{
+  font-weight:bold;
+  font-size:20px
+}
+
+.nav-btn{
+  border:0;
+  background:#fff;
+  color:#166534;
+  padding:9px 12px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.container{
+  width:min(1000px,94%);
+  margin:20px auto 45px
+}
+
+.back{
+  color:#166534;
+  text-decoration:none;
+  font-weight:bold;
+  display:inline-block;
+  margin-bottom:15px
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 4px 16px #0001
+}
+
+.card h2{
+  margin-top:0
+}
+
+.farm-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px
+}
+
+.farm-item{
+  background:#f1f7f2;
+  padding:13px;
+  border-radius:10px
+}
+
+.farm-item strong{
+  display:block;
+  color:#5f7265;
+  font-size:12px;
+  margin-bottom:5px
+}
+
+.language-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:12px
+}
+
+select{
+  padding:11px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  background:#fff;
+  font-size:14px
+}
+
+textarea{
+  width:100%;
+  border:0;
+  outline:0;
+  resize:none;
+  font:inherit;
+  min-height:48px;
+  max-height:140px;
+  padding:9px
+}
+
+.chat{
+  min-height:360px;
+  max-height:560px;
+  overflow-y:auto;
+  padding:12px 5px;
+  background:#fff;
+  border-radius:14px
+}
+
+.empty{
+  text-align:center;
+  padding:70px 15px;
+  color:#64748b
+}
+
+.empty .icon{
+  font-size:42px
+}
+
+.message{
+  display:flex;
+  gap:9px;
+  margin:15px 0;
+  align-items:flex-start
+}
+
+.message.user{
+  justify-content:flex-end
+}
+
+.avatar{
+  width:32px;
+  height:32px;
+  min-width:32px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#166534;
+  color:#fff
+}
+
+.message.user .avatar{
+  order:2;
+  background:#475569
+}
+
+.bubble{
+  max-width:78%;
+  padding:11px 14px;
+  border-radius:15px;
+  line-height:1.6;
+  white-space:pre-wrap;
+  word-break:break-word
+}
+
+.message.ai .bubble{
+  background:#f1f5f9;
+  border-bottom-left-radius:5px
+}
+
+.message.user .bubble{
+  background:#166534;
+  color:#fff;
+  border-bottom-right-radius:5px
+}
+
+.chat-img{
+  max-width:240px;
+  max-height:220px;
+  border-radius:12px;
+  display:block;
+  margin-bottom:8px
+}
+
+.attachment{
+  position:relative;
+  display:inline-block;
+  margin:8px 0
+}
+
+.attachment img{
+  width:90px;
+  height:90px;
+  object-fit:cover;
+  border-radius:12px
+}
+
+.remove{
+  position:absolute;
+  right:-7px;
+  top:-7px;
+  border:0;
+  background:#dc2626;
+  color:#fff;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  cursor:pointer
+}
+
+.composer{
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  border:1px solid #cbd5e1;
+  border-radius:24px;
+  padding:7px 8px 7px 10px;
+  box-shadow:0 2px 8px #0001
+}
+
+.icon-btn,
+.send{
+  width:40px;
+  height:40px;
+  min-width:40px;
+  border:0;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  cursor:pointer
+}
+
+.icon-btn{
+  background:transparent;
+  font-size:18px
+}
+
+.icon-btn:hover{
+  background:#f1f5f9
+}
+
+.send{
+  background:#166534;
+  color:#fff;
+  font-size:18px
+}
+
+.send:disabled{
+  background:#94a3b8
+}
+
+.listening{
+  background:#dc2626;
+  color:#fff
+}
+
+.composer textarea{
+  margin:0
+}
+
+.bottom{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-top:8px;
+  color:#64748b;
+  font-size:12px
+}
+
+.clear{
+  border:0;
+  background:#64748b;
+  color:#fff;
+  padding:7px 10px;
+  border-radius:8px;
+  cursor:pointer
+}
+
+.advice-box{
+  display:none;
+  background:#f8faf9;
+  border-left:4px solid #166534;
+  padding:15px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  border-radius:10px
+}
+
+.action-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px
+}
+
+.primary,
+.secondary{
+  border:0;
+  padding:10px 14px;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+.primary{
+  background:#166534;
+  color:#fff
+}
+
+.secondary{
+  background:#475569;
+  color:#fff
+}
+
+.notice{
+  margin-top:10px;
+  padding:10px;
+  border-radius:9px;
+  background:#f1f5f2;
+  color:#52675a;
+  font-size:13px
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534
+}
+
+.resource-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px
+}
+
+.resource{
+  background:#f8faf9;
+  padding:13px;
+  border-radius:12px
+}
+
+.resource img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:9px
+}
+
+.resource h3{
+  font-size:15px
+}
+
+.resource a{
+  display:inline-block;
+  background:#166534;
+  color:#fff;
+  padding:8px 10px;
+  border-radius:8px;
+  text-decoration:none;
+  font-size:13px
+}
+
+@media(max-width:700px){
+
+  .farm-grid,
+  .resource-grid{
+    grid-template-columns:1fr
+  }
+
+  .bubble{
+    max-width:86%
+  }
+
+  .bottom{
+    flex-direction:column;
+    align-items:flex-start
+  }
+}
+.stop-conversation {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 14px;
+  background: #dc2626;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.stop-conversation:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="brand">
+🌱 Smart Farming AI Advisor
+</div>
+
+<button
+id="dashboardBtn"
+class="nav-btn"
+>
+Dashboard
+</button>
+
+</nav>
+
+<main class="container">
+
+<a
+class="back"
+href="dashboard.html"
+>
+← Back to Dashboard
+</a>
+
+<section class="card">
+
+<h2>🌾 Farm Context</h2>
+
+<div class="farm-grid">
+
+<div class="farm-item">
+<strong>Farmer</strong>
+<span id="farmerName">Farmer</span>
+</div>
+
+<div class="farm-item">
+<strong>Location</strong>
+<span id="location">Not available</span>
+</div>
+
+<div class="farm-item">
+<strong>Crop</strong>
+<span id="crop">Not selected</span>
+</div>
+
+<div class="farm-item">
+<strong>Soil</strong>
+<span id="soil">Not selected</span>
+</div>
+
+<div class="farm-item">
+<strong>Irrigation</strong>
+<span id="irrigation">Not selected</span>
+</div>
+
+<div class="farm-item">
+<strong>Weather</strong>
+<span id="weather">Not available</span>
+</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>💬 AI Farming Conversation</h2>
+
+<div class="language-row">
+
+<strong>AI language:</strong>
+
+<select id="language">
+
+<option value="en-IN">
+English
+</option>
+
+<option value="hi-IN">
+Hindi
+</option>
+
+<option value="mr-IN">
+Marathi
+</option>
+
+<option value="gu-IN">
+Gujarati
+</option>
+
+<option value="bn-IN">
+Bengali
+</option>
+
+<option value="ta-IN">
+Tamil
+</option>
+
+<option value="te-IN">
+Telugu
+</option>
+
+<option value="kn-IN">
+Kannada
+</option>
+
+<option value="ml-IN">
+Malayalam
+</option>
+
+<option value="pa-IN">
+Punjabi
+</option>
+
+<option value="ur-IN">
+Urdu
+</option>
+
+</select>
+
+</div>
+
+<div
+id="chat"
+class="chat"
+>
+
+<div class="empty">
+
+<div class="icon">
+🌱
+</div>
+
+<strong>
+Smart Farming AI
+</strong>
+
+<p>
+Type your farming problem, speak it, or attach a crop photo.
+</p>
+
+</div>
+
+</div>
+
+<div
+id="attachment"
+class="attachment"
+style="display:none"
+>
+
+<img
+id="attachmentImg"
+alt="Attached crop photo"
+>
+
+<button
+id="removeAttachment"
+class="remove"
+type="button"
+>
+×
+</button>
+
+</div>
+
+<div class="composer">
+
+<input
+id="fileInput"
+type="file"
+accept="image/png,image/jpeg,image/webp"
+hidden
+>
+
+<button
+id="attachBtn"
+class="icon-btn"
+type="button"
+title="Attach crop photo"
+>
+📎
+</button>
+
+<textarea
+id="chatInput"
+rows="1"
+placeholder="Message Smart Farming AI..."
+></textarea>
+
+<button
+id="micBtn"
+class="icon-btn"
+type="button"
+title="Speak"
+>
+🎙️
+</button>
+
+<button
+id="sendBtn"
+class="send"
+type="button"
+title="Send"
+>
+➤
+</button>
+
+</div>
+
+<div class="bottom">
+
+    <span id="status">
+        AI can analyze your message and crop photo. Non-chemical advice only.
+    </span>
+
+    <button id="stopBtn" class="stop-conversation" type="button">
+        ⏹ Stop Conversation
+    </button>
+    
+    <button id="stopListenBtn" type="button">
+    ⏹ Stop Listening
+</button>
+
+<button
+  id="stopVoiceBtn"
+  type="button"
+  disabled
+>
+  ⏹ Stop AI Voice
+</button>
+
+    <button id="clearBtn" class="clear" type="button">
+        Clear Conversation
+    </button>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+🧠 Latest Written Advice
+</h2>
+
+<div
+id="adviceBox"
+class="advice-box"
+></div>
+
+<div class="action-row">
+
+<button
+id="listenBtn"
+class="secondary"
+type="button"
+disabled
+>
+🔊 Listen to Advice
+</button>
+
+<button
+id="getAdviceBtn"
+class="primary"
+type="button"
+>
+Get AI Advice
+</button>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>
+📚 Related Farming Resources
+</h2>
+
+<div
+id="resourceStatus"
+class="notice"
+>
+Resources will appear after a farming question.
+</div>
+
+<div
+id="resources"
+class="resource-grid"
+></div>
+
+</section>
+
+</main>
+
+<script>
+
+const $ =
+id =>
+document.getElementById(id);
+
+let user = {};
+
+try {
+
+  user =
+    JSON.parse(
+      localStorage.getItem(
+        "loggedInUser"
+      ) || "{}"
+    );
+
+} catch {
+
+  user = {};
+
+}
+
+if (!user.email) {
+
+  location.replace(
+    "index.html"
+  );
+
+}
+
+const safe = v => {
+
+  if (
+    v === null ||
+    v === undefined
+  ) {
+    return "";
+  }
+
+  if (
+    typeof v === "object"
+  ) {
+    v =
+      v.name ??
+      v.label ??
+      v.value ??
+      "";
+  }
+
+  return String(v).trim();
+
+};
+
+const set = (
+  id,
+  v
+) => {
+
+  $(id).textContent =
+    safe(v) ||
+    "Not available";
+
+};
+
+set(
+  "farmerName",
+  user.name ||
+  "Farmer"
+);
+
+set(
+  "location",
+  user.location
+);
+
+set(
+  "crop",
+  user.crop
+);
+
+set(
+  "soil",
+  user.soil
+);
+
+set(
+  "irrigation",
+  user.irrigation
+);
+
+set(
+  "weather",
+  user.weather
+);
+
+let imageData = "";
+let lastAdvice = "";
+
+let audio = null;
+let listening = false;
+let recognition = null;
+
+let currentRequest = null;
+let ttsRequest = null;
+
+let conversationStopped = false;
+
+function stopConversation() {
+
+  console.log("Stop Conversation clicked");
+
+  // Mark current operation as stopped
+  conversationStopped = true;
+
+  // Stop Gemini farming-advice request
+  if (currentRequest) {
+    try {
+      currentRequest.abort();
+    } catch (error) {
+      console.warn("Advice request abort error:", error);
+    }
+
+    currentRequest = null;
+  }
+
+  // Stop Gemini TTS request
+  if (ttsRequest) {
+    try {
+      ttsRequest.abort();
+    } catch (error) {
+      console.warn("TTS request abort error:", error);
+    }
+
+    ttsRequest = null;
+  }
+
+  // STOP CURRENT AUDIO IMMEDIATELY
+  if (audio) {
+
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+
+      // Remove event handlers so old audio cannot change status
+      audio.onended = null;
+      audio.onerror = null;
+
+    } catch (error) {
+      console.warn("Audio stop error:", error);
+    }
+
+    audio = null;
+  }
+
+  // Stop browser speech synthesis too
+  if ("speechSynthesis" in window) {
+
+    try {
+      window.speechSynthesis.cancel();
+    } catch (error) {
+      console.warn(
+        "Speech synthesis stop error:",
+        error
+      );
+    }
+
+  }
+
+  // Stop microphone listening
+  if (
+    recognition &&
+    listening
+  ) {
+
+    try {
+      recognition.stop();
+    } catch {}
+
+  }
+
+  listening = false;
+
+  $("micBtn")
+    .classList
+    .remove("listening");
+
+  $("status")
+    .textContent =
+    "AI conversation stopped. You can ask a new question.";
+
+  $("stopBtn")
+    .disabled = true;
+}
+$("stopBtn").onclick =
+  stopConversation;
+
+function addMessage(
+  role,
+  text,
+  image = ""
+) {
+
+  const empty =
+    $("chat").querySelector(
+      ".empty"
+    );
+
+  if (empty) {
+    empty.remove();
+  }
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+  row.className =
+    "message " +
+    role;
+
+  const avatar =
+    document.createElement(
+      "div"
+    );
+
+  avatar.className =
+    "avatar";
+
+  avatar.textContent =
+    role === "user"
+      ? "👨‍🌾"
+      : "🌱";
+
+  const bubble =
+    document.createElement(
+      "div"
+    );
+
+  bubble.className =
+    "bubble";
+
+  if (image) {
+
+    const img =
+      document.createElement(
+        "img"
+      );
+
+    img.src = image;
+
+    img.className =
+      "chat-img";
+
+    img.alt =
+      "Uploaded crop photo";
+
+    bubble.appendChild(
+      img
+    );
+
+  }
+
+  if (text) {
+
+    const t =
+      document.createElement(
+        "div"
+      );
+
+    t.textContent =
+      text;
+
+    bubble.appendChild(
+      t
+    );
+
+  }
+
+  row.append(
+    avatar,
+    bubble
+  );
+
+  $("chat")
+    .appendChild(row);
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
+}
+
+function clearChat() {
+
+  $("chat").innerHTML =
+    `
+    <div class="empty">
+      <div class="icon">🌱</div>
+      <strong>Smart Farming AI</strong>
+      <p>
+        Type your farming problem, speak it, or attach a crop photo.
+      </p>
+    </div>
+    `;
+
+  lastAdvice = "";
+
+  $("adviceBox")
+    .style.display =
+    "none";
+
+  $("listenBtn")
+    .disabled = true;
+
+  $("status")
+    .textContent =
+    "Conversation cleared.";
+
+}
+
+$("clearBtn").onclick =
+  clearChat;
+
+$("dashboardBtn").onclick =
+  () =>
+    location.href =
+      "dashboard.html";
+
+$("attachBtn").onclick =
+  () =>
+    $("fileInput").click();
+
+$("fileInput").onchange =
+  () => {
+
+    const file =
+      $("fileInput")
+        .files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    if (
+      ![
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ].includes(
+        file.type
+      )
+    ) {
+
+      $("status")
+        .textContent =
+        "Please select JPG, PNG or WebP.";
+
+      return;
+    }
+
+    $("status")
+      .textContent =
+      "Reading crop photo...";
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      () => {
+
+        imageData =
+          String(
+            reader.result || ""
+          );
+
+        $("attachmentImg")
+          .src =
+          imageData;
+
+        $("attachment")
+          .style.display =
+          "inline-block";
+
+        $("status")
+          .textContent =
+          "Crop photo attached. Ask your question.";
+
+      };
+
+    reader.readAsDataURL(
+      file
+    );
+
+  };
+
+$("removeAttachment")
+  .onclick =
+  () => {
+
+    imageData = "";
+
+    $("fileInput")
+      .value = "";
+
+    $("attachment")
+      .style.display =
+      "none";
+
+  };
+
+function context() {
+
+  return {
+
+    name:
+      user.name ||
+      "Farmer",
+
+    farmerName:
+      user.name ||
+      "Farmer",
+
+    location:
+      user.location ||
+      "",
+
+    crop:
+      user.crop ||
+      "",
+
+    soil:
+      user.soil ||
+      "",
+
+    irrigation:
+      user.irrigation ||
+      "",
+
+    weather:
+      user.weather ||
+      "",
+
+    languageCode:
+      $("language").value
+
+  };
+
+}
+
+async function json(r) {
+
+  const raw =
+    await r.text();
+
+  let d;
+
+  try {
+
+    d =
+      JSON.parse(
+        raw
+      );
+
+  } catch {
+
+    throw Error(
+      raw.slice(
+        0,
+        250
+      ) ||
+      "Server returned invalid response."
+    );
+
+  }
+
+  if (
+    !r.ok ||
+    d.success === false
+  ) {
+
+    throw Error(
+      d.error ||
+      "Request failed."
+    );
+
+  }
+
+  return d;
+
+}
+
+async function send() {
+
+  const text =
+    $("chatInput")
+      .value
+      .trim();
+
+  if (
+    !text &&
+    !imageData
+  ) {
+
+    $("status")
+      .textContent =
+      "Type a problem, speak, or attach a crop photo.";
+
+    return;
+
+  }
+
+  const attached =
+    imageData;
+
+  $("sendBtn")
+    .disabled = true;
+
+  $("status")
+    .textContent =
+    "Gemini is analyzing...";
+
+  addMessage(
+    "user",
+    text,
+    attached
+  );
+
+  $("chatInput")
+    .value = "";
+
+    conversationStopped = false;
+
+$("stopBtn")
+  .disabled = false;
+
+currentRequest =
+  new AbortController();
+
+  try {
+
+    const r =
+      await fetch(
+        "/api/farming-advice",
+        {
+          method:
+            "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              ...context(),
+
+              problem:
+                text,
+
+              userText:
+                text,
+
+              image:
+                attached,
+
+              imageData:
+                attached
+            }),
+            signal:
+            currentRequest.signal
+        }
+      );
+
+    const d =
+      await json(r);
+
+    const answer =
+      String(
+        d.advice ||
+        d.text ||
+        d.result ||
+        d.response ||
+        ""
+      ).trim();
+
+    if (!answer) {
+
+      throw Error(
+        "AI returned no advice."
+      );
+
+    }
+
+    lastAdvice =
+      answer;
+
+    $("adviceBox")
+      .textContent =
+      answer;
+
+    $("adviceBox")
+      .style.display =
+      "block";
+
+    $("listenBtn")
+      .disabled = false;
+
+    addMessage(
+      "ai",
+      answer
+    );
+
+    $("status")
+      .textContent =
+      "AI answered. You can continue the conversation.";
+
+    loadResources(
+      text ||
+      `photo analysis for ${
+        user.crop ||
+        "crop"
+      }`
+    );
+
+} catch (e) {
+
+  if (
+    e.name === "AbortError" ||
+    conversationStopped
+  ) {
+    console.log(
+      "AI farming request stopped."
+    );
+    return;
+  }
+
+  addMessage(
+    "ai",
+    e.message ||
+    "AI request failed."
+  );
+
+    $("status")
+      .textContent =
+      e.message ||
+      "AI request failed.";
+
+  } finally {
+
+    currentRequest = null;
+
+    $("sendBtn")
+      .disabled = false;
+
+    imageData = "";
+
+    $("fileInput")
+      .value = "";
+
+    $("attachment")
+      .style.display =
+      "none";
+
+  }
+
+}
+
+$("sendBtn").onclick =
+  send;
+
+$("chatInput")
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if (
+        e.key === "Enter" &&
+        !e.shiftKey
+      ) {
+
+        e.preventDefault();
+
+        send();
+
+      }
+
+    }
+  );
+
+async function speak(text) {
+
+  if (!text) {
+    return;
+  }
+
+  // Stop previous audio
+  if (audio) {
+    try {
+      audio.pause();
+      audio.currentTime = 0;
+    } catch {}
+
+    audio = null;
+  }
+
+  // Create a new controller for this TTS request
+  ttsRequest = new AbortController();
+
+  // New voice request is active
+  conversationStopped = false;
+
+  $("status").textContent =
+    "Preparing AI voice...";
+
+  try {
+
+    const r =
+      await fetch(
+        "/api/tts",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              text,
+              languageCode:
+                $("language").value
+            }),
+
+          signal:
+            ttsRequest.signal
+        }
+      );
+
+    const d =
+      await json(r);
+
+    // Stop was clicked while TTS was loading
+    if (conversationStopped) {
+      console.log(
+        "TTS cancelled before playback."
+      );
+      return;
+    }
+
+    if (!d.audio) {
+      throw new Error(
+        "AI voice audio was not received."
+      );
+    }
+
+    audio =
+      new Audio(
+        `data:${
+          d.mimeType ||
+          "audio/wav"
+        };base64,${
+          d.audio
+        }`
+      );
+
+    // Check again before playing
+    if (conversationStopped) {
+
+      audio.pause();
+      audio = null;
+
+      return;
+    }
+
+    $("status").textContent =
+      "AI is speaking...";
+
+      $("stopVoiceBtn").disabled = false;
+
+    await audio.play();
+
+    // Stop clicked during playback
+    if (conversationStopped) {
+
+      audio.pause();
+      audio.currentTime = 0;
+      audio = null;
+
+      return;
+    }
+
+    audio.onended =
+      () => {
+
+        $("stopVoiceBtn").disabled = true;
+
+        if (!conversationStopped) {
+
+          $("status").textContent =
+            "AI is ready.";
+
+        }
+
+      };
+
+    audio.onerror =
+      () => {
+
+        $("stopVoiceBtn").disabled = true;
+
+        if (!conversationStopped) {
+
+          $("status").textContent =
+            "Could not play AI voice.";
+
+        }
+
+      };
+
+  } catch (e) {
+
+    // Normal when Stop Conversation aborts TTS
+    if (e.name === "AbortError") {
+
+      console.log(
+        "TTS request stopped."
+      );
+
+      return;
+    }
+
+    if (!conversationStopped) {
+
+      console.error(
+        "TTS error:",
+        e
+      );
+
+      $("status").textContent =
+        e.message ||
+        "Could not play AI voice.";
+
+    }
+
+  } finally {
+
+    ttsRequest = null;
+
+  }
+
+}
+
+$("stopVoiceBtn").onclick =
+  () => {
+
+    if (ttsRequest) {
+      try {
+        ttsRequest.abort();
+      } catch {}
+
+      ttsRequest = null;
+    }
+
+    if (audio) {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.onended = null;
+        audio.onerror = null;
+      } catch {}
+
+      audio = null;
+    }
+
+    if ("speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {}
+    }
+
+    $("stopVoiceBtn").disabled = true;
+
+    $("status").textContent =
+      "AI voice stopped.";
+  };
+
+$("listenBtn").onclick =
+  () =>
+    speak(
+      lastAdvice
+    );
+
+$("getAdviceBtn").onclick =
+  send;
+
+const SR =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+if (SR) {
+
+  recognition =
+    new SR();
+
+  recognition.continuous =
+    false;
+
+  recognition.interimResults =
+    false;
+
+  recognition.onstart =
+    () => {
+
+      listening = true;
+
+      $("micBtn")
+        .classList
+        .add(
+          "listening"
+        );
+
+      $("status")
+        .textContent =
+        "Listening...";
+
+    };
+
+  recognition.onresult =
+    async e => {
+
+      const t =
+        e.results?.[0]?.[0]
+          ?.transcript
+          ?.trim() ||
+        "";
+
+      if (t) {
+
+        $("chatInput")
+          .value = t;
+
+        await send();
+
+      }
+
+    };
+
+  recognition.onerror =
+    e => {
+
+      $("status")
+        .textContent =
+        e.error ===
+        "not-allowed"
+
+          ? "Microphone permission denied."
+
+          : "Could not understand the voice input.";
+
+    };
+
+  recognition.onend =
+    () => {
+
+      listening = false;
+
+      $("micBtn")
+        .classList
+        .remove(
+          "listening"
+        );
+
+      if (
+        !$("status")
+          .textContent
+          .includes(
+            "Gemini"
+          ) &&
+        !$("status")
+          .textContent
+          .includes(
+            "speaking"
+          )
+      ) {
+
+        $("status")
+          .textContent =
+          "AI is ready.";
+
+      }
+
+    };
+
+  $("micBtn").onclick =
+    () => {
+
+      if (listening) {
+
+        recognition.stop();
+
+        return;
+
+      }
+
+      recognition.lang =
+        $("language").value;
+
+      try {
+
+        recognition.start();
+
+      } catch {}
+
+    };
+
+} else {
+
+  $("micBtn")
+    .disabled = true;
+
+  $("status")
+    .textContent =
+    "Speech recognition is not supported in this browser.";
+
+
+}
+
+$("stopListenBtn").onclick =
+  () => {
+
+    if (
+      recognition &&
+      listening
+    ) {
+
+      try {
+        recognition.stop();
+      } catch {}
+
+    }
+
+    listening = false;
+
+    $("micBtn")
+      .classList
+      .remove("listening");
+
+    $("status")
+      .textContent =
+      "Listening stopped.";
+  };
+
+async function loadResources(
+  problem
+) {
+
+  $("resources")
+    .innerHTML = "";
+
+  $("resourceStatus")
+    .textContent =
+    "Finding related farming resources...";
+
+  try {
+
+    const r =
+      await fetch(
+        "/api/resources",
+        {
+          method:
+            "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              crop:
+                user.crop ||
+                "crop",
+
+              problem
+            })
+        }
+      );
+
+    const d =
+      await json(r);
+
+    const videos =
+      Array.isArray(
+        d.videos
+      )
+        ? d.videos
+        : [];
+
+    const photos =
+      Array.isArray(
+        d.photos
+      )
+        ? d.photos
+        : [];
+
+    videos
+      .slice(0,3)
+      .forEach(
+        v => {
+
+          const c =
+            document.createElement(
+              "div"
+            );
+
+          c.className =
+            "resource";
+
+          c.innerHTML =
+            `
+            <h3>
+              🎥 ${
+                escapeHtml(
+                  v.title
+                )
+              }
+            </h3>
+
+            <p>
+              Current YouTube search for this crop and problem.
+            </p>
+
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="${v.url}"
+            >
+              Watch on YouTube
+            </a>
+            `;
+
+          $("resources")
+            .appendChild(c);
+
+        }
+      );
+
+    photos
+      .slice(0,3)
+      .forEach(
+        p => {
+
+          const c =
+            document.createElement(
+              "div"
+            );
+
+          c.className =
+            "resource";
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+          img.src =
+            p.url;
+
+          img.alt =
+            p.title;
+
+          c.appendChild(
+            img
+          );
+
+          const h =
+            document.createElement(
+              "h3"
+            );
+
+          h.textContent =
+            p.title;
+
+          c.appendChild(
+            h
+          );
+
+          if (p.pageUrl) {
+
+            const a =
+              document.createElement(
+                "a"
+              );
+
+            a.href =
+              p.pageUrl;
+
+            a.target =
+              "_blank";
+
+            a.rel =
+              "noopener noreferrer";
+
+            a.textContent =
+              "View Source";
+
+            c.appendChild(
+              a
+            );
+
+          }
+
+          $("resources")
+            .appendChild(c);
+
+        }
+      );
+
+    $("resourceStatus")
+      .textContent =
+      (
+        videos.length ||
+        photos.length
+      )
+        ? "Resources related to your crop and problem."
+        : "No resources found right now.";
+
+  } catch (e) {
+
+    $("resourceStatus")
+      .textContent =
+      "Resources could not be loaded right now.";
+
+  }
+
+}
+
+function escapeHtml(v) {
+
+  return String(v)
+    .replace(
+      /[&<>'"]/g,
+      c =>
+        ({
+          "&":
+            "&amp;",
+          "<":
+            "&lt;",
+          ">":
+            "&gt;",
+          "'":
+            "&#39;",
+          '"':
+            "&quot;"
+        }[c])
+    );
+
+}
+</script>
+
+</body>
+</html>

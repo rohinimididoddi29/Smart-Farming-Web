@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Smart Farming - Register</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #eaf6ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2d6a4f;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .method-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .method-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #2d6a4f;
+      background: white;
+      color: #2d6a4f;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .method-btn.active {
+      background: #2d6a4f;
+      color: white;
+    }
+
+    .method {
+      display: none;
+    }
+
+    .method.active {
+      display: block;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #2d6a4f;
+    }
+
+    .otp-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .otp-row input {
+      flex: 1;
+    }
+
+    .otp-btn {
+      padding: 13px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #2d6a4f;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .otp-btn:hover {
+      background: #1b4332;
+    }
+
+    .create-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #2d6a4f;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .create-btn:hover {
+      background: #1b4332;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .success {
+      background: #d8f3dc;
+      color: #1b4332;
+    }
+
+    .error {
+      background: #ffe5e5;
+      color: #b00020;
+    }
+
+    .login-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .login-text a {
+      color: #2d6a4f;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .otp-status {
+      color: #2d6a4f;
+      font-size: 14px;
+      margin-top: -8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    @media (max-width: 450px) {
+      .container {
+        padding: 22px;
+      }
+
+      .otp-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .otp-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">🌾</div>
+
+    <h1>Create Farmer Account</h1>
+
+    <p class="subtitle">
+      Choose one registration method
+    </p>
+
+
+    <!-- METHOD SELECTION -->
+    <div class="method-buttons">
+
+      <button
+        type="button"
+        id="emailMethodBtn"
+        class="method-btn active"
+        onclick="selectMethod('email')"
+      >
+        📧 Email
+      </button>
+
+      <button
+        type="button"
+        id="phoneMethodBtn"
+        class="method-btn"
+        onclick="selectMethod('phone')"
+      >
+        📱 Phone
+      </button>
+
+    </div>
+
+
+    <!-- MESSAGE -->
+    <div id="message" class="message"></div>
+
+
+    <!-- ============================= -->
+    <!-- EMAIL REGISTRATION -->
+    <!-- ============================= -->
+
+    <form id="emailForm" class="method active">
+
+      <label for="email">
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+
+      <label for="emailPassword">
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="emailPassword"
+        placeholder="Create password"
+        minlength="6"
+        required
+      >
+
+
+      <button
+        type="submit"
+        class="create-btn"
+      >
+        Continue with Email
+      </button>
+
+    </form>
+
+
+    <!-- ============================= -->
+    <!-- PHONE REGISTRATION -->
+    <!-- ============================= -->
+
+    <form id="phoneForm" class="method">
+
+      <label for="phone">
+        Phone Number
+      </label>
+
+      <div class="otp-row">
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="+91XXXXXXXXXX"
+        >
+
+        <button
+          type="button"
+          class="otp-btn"
+          onclick="sendOTP()"
+        >
+          Send OTP
+        </button>
+
+      </div>
+
+
+      <p id="otpStatus" class="otp-status"></p>
+
+
+      <label for="otp">
+        OTP
+      </label>
+
+      <input
+        type="text"
+        id="otp"
+        placeholder="Enter OTP"
+        maxlength="6"
+      >
+
+
+      <label for="phonePassword">
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="phonePassword"
+        placeholder="Create password"
+        minlength="6"
+      >
+
+
+      <button
+        type="submit"
+        class="create-btn"
+      >
+        Verify & Continue
+      </button>
+
+    </form>
+
+
+    <p class="login-text">
+      Already have an account?
+      <a href="index.html">Login</a>
+    </p>
+
+  </div>
+
+
+  <script>
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+    let selectedMethod = "email";
+
+    let generatedOTP = "";
+
+    let otpVerified = false;
+
+
+    // ==========================================
+    // SELECT EMAIL / PHONE
+    // ==========================================
+
+    function selectMethod(method) {
+
+      selectedMethod = method;
+
+      const emailBtn =
+        document.getElementById("emailMethodBtn");
+
+      const phoneBtn =
+        document.getElementById("phoneMethodBtn");
+
+      const emailForm =
+        document.getElementById("emailForm");
+
+      const phoneForm =
+        document.getElementById("phoneForm");
+
+
+      if (method === "email") {
+
+        emailBtn.classList.add("active");
+        phoneBtn.classList.remove("active");
+
+        emailForm.classList.add("active");
+        phoneForm.classList.remove("active");
+
+      } else {
+
+        phoneBtn.classList.add("active");
+        emailBtn.classList.remove("active");
+
+        phoneForm.classList.add("active");
+        emailForm.classList.remove("active");
+
+      }
+
+
+      hideMessage();
+    }
+
+
+    // ==========================================
+    // MESSAGE
+    // ==========================================
+
+    function showMessage(text, type) {
+
+      const box =
+        document.getElementById("message");
+
+      box.textContent = text;
+
+      box.className =
+        "message " + type;
+
+      box.style.display = "block";
+    }
+
+
+    function hideMessage() {
+
+      const box =
+        document.getElementById("message");
+
+      box.style.display = "none";
+    }
+
+
+    // ==========================================
+    // EMAIL REGISTRATION
+    // ==========================================
+
+    document
+      .getElementById("emailForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+          document
+            .getElementById("emailPassword")
+            .value;
+
+
+        if (!email) {
+
+          showMessage(
+            "Please enter your email.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password.length < 6) {
+
+          showMessage(
+            "Password must be at least 6 characters.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        // Save temporary registration
+        const pendingFarmer = {
+
+          email: email,
+
+          password: password,
+
+          method: "email"
+
+        };
+
+
+        localStorage.setItem(
+          "pendingFarmer",
+          JSON.stringify(pendingFarmer)
+        );
+
+
+        localStorage.setItem(
+          "phoneVerified",
+          "false"
+        );
+
+
+        showMessage(
+          "Email verified. Opening farm details...",
+          "success"
+        );
+
+
+        setTimeout(function() {
+
+          window.location.replace(
+            "farm-details.html"
+          );
+
+        }, 700);
+
+      });
+
+
+    // ==========================================
+    // SEND OTP
+    // ==========================================
+
+    function sendOTP() {
+
+      const phone =
+        document
+          .getElementById("phone")
+          .value
+          .trim();
+
+
+      if (!phone) {
+
+        showMessage(
+          "Please enter your phone number.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      // Basic phone validation
+      const digits =
+        phone.replace(/\D/g, "");
+
+
+      if (digits.length < 10) {
+
+        showMessage(
+          "Please enter a valid phone number.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      // Generate 6 digit demo OTP
+      generatedOTP =
+        Math.floor(
+          100000 +
+          Math.random() * 900000
+        ).toString();
+
+
+      otpVerified = false;
+
+
+      // Demo only
+      alert(
+        "Demo OTP: " + generatedOTP
+      );
+
+
+      const status =
+        document.getElementById("otpStatus");
+
+      status.textContent =
+        "OTP sent successfully.";
+
+      status.style.display =
+        "block";
+
+
+      showMessage(
+        "OTP sent. Please enter the OTP.",
+        "success"
+      );
+
+    }
+
+
+    // ==========================================
+    // PHONE REGISTRATION
+    // ==========================================
+
+    document
+      .getElementById("phoneForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const phone =
+          document
+            .getElementById("phone")
+            .value
+            .trim();
+
+
+        const otp =
+          document
+            .getElementById("otp")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("phonePassword")
+            .value;
+
+
+        if (!generatedOTP) {
+
+          showMessage(
+            "Please click Send OTP first.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (otp !== generatedOTP) {
+
+          showMessage(
+            "Incorrect OTP. Please try again.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password.length < 6) {
+
+          showMessage(
+            "Password must be at least 6 characters.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        otpVerified = true;
+
+
+        // Save temporary registration
+        const pendingFarmer = {
+
+          email: "",
+
+          password: password,
+
+          phone: phone,
+
+          method: "phone"
+
+        };
+
+
+        localStorage.setItem(
+          "pendingFarmer",
+          JSON.stringify(pendingFarmer)
+        );
+
+
+        localStorage.setItem(
+          "phoneVerified",
+          "true"
+        );
+
+
+        showMessage(
+          "OTP verified. Opening farm details...",
+          "success"
+        );
+
+
+        setTimeout(function() {
+
+          window.location.replace(
+            "farm-details.html"
+          );
+
+        }, 700);
+
+      });
+
+  </script>
+
+</body>
+</html>

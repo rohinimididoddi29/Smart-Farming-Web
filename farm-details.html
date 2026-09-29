@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Smart Farming - Farm Details</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f8f3;
+      color: #1f2937;
+    }
+
+    .topbar {
+      background: #166534;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .back-btn {
+      background: white;
+      color: #166534;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 30px));
+      margin: 25px auto 50px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+      border: 1px solid #e2e8f0;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: #14532d;
+    }
+
+    .subtitle {
+      color: #64748b;
+      margin: 0 0 24px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      background: white;
+      color: #111827;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .actions {
+      margin-top: 22px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .primary {
+      border: none;
+      background: #16a34a;
+      color: white;
+      border-radius: 9px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary:hover {
+      background: #15803d;
+    }
+
+    .secondary {
+      border: 1px solid #16a34a;
+      background: white;
+      color: #166534;
+      border-radius: 9px;
+      padding: 11px 17px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .message {
+      margin-top: 13px;
+      min-height: 20px;
+      font-size: 14px;
+    }
+
+    .success {
+      color: #15803d;
+    }
+
+    .error {
+      color: #dc2626;
+    }
+
+    .info {
+      margin-top: 20px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .container {
+        width: calc(100% - 20px);
+        margin-top: 15px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+
+    <div class="brand">
+      🌱 Smart Farming AI Advisor
+    </div>
+
+    <button
+      type="button"
+      class="back-btn"
+      id="backBtn"
+    >
+      ← Dashboard
+    </button>
+
+  </header>
+
+
+  <main class="container">
+
+    <section class="card">
+
+      <h1>🌾 Farm Details</h1>
+
+      <p class="subtitle">
+        Select your farm information. These details will be used by the
+        Smart Farming AI Advisor to give crop-specific advice.
+      </p>
+
+
+      <form id="farmForm">
+
+        <div class="grid">
+
+          <!-- FARMER NAME -->
+          <div class="field">
+
+            <label for="farmerName">
+              Farmer Name
+            </label>
+
+            <input
+              id="farmerName"
+              type="text"
+              placeholder="Enter farmer name"
+              required
+            >
+
+          </div>
+
+
+          <!-- LOCATION -->
+          <div class="field">
+
+            <label for="location">
+              Farm Location
+            </label>
+
+            <select
+              id="location"
+              required
+            >
+
+              <option value="">
+                Select Location
+              </option>
+
+              <option value="Mumbai">
+                Mumbai
+              </option>
+
+              <option value="Pune">
+                Pune
+              </option>
+
+              <option value="Nashik">
+                Nashik
+              </option>
+
+              <option value="Nagpur">
+                Nagpur
+              </option>
+
+              <option value="Kolhapur">
+                Kolhapur
+              </option>
+
+              <option value="Ahmednagar">
+                Ahmednagar
+              </option>
+
+              <option value="Aurangabad">
+                Aurangabad
+              </option>
+
+              <option value="Satara">
+                Satara
+              </option>
+
+              <option value="Sangli">
+                Sangli
+              </option>
+
+              <option value="Solapur">
+                Solapur
+              </option>
+
+              <option value="Amravati">
+                Amravati
+              </option>
+
+              <option value="Jalgaon">
+                Jalgaon
+              </option>
+
+              <option value="Dhule">
+                Dhule
+              </option>
+
+              <option value="Akola">
+                Akola
+              </option>
+
+              <option value="Nanded">
+                Nanded
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- OTHER LOCATION -->
+          <div
+            class="field hidden"
+            id="otherLocationField"
+          >
+
+            <label for="otherLocation">
+              Enter Your Location
+            </label>
+
+            <input
+              id="otherLocation"
+              type="text"
+              placeholder="Enter village / city / district"
+            >
+
+          </div>
+
+
+          <!-- CROP -->
+          <div class="field">
+
+            <label for="crop">
+              Main Crop
+            </label>
+
+            <select
+              id="crop"
+              required
+            >
+
+              <option value="">
+                Select Main Crop
+              </option>
+
+              <option value="Rice">
+                Rice
+              </option>
+
+              <option value="Wheat">
+                Wheat
+              </option>
+
+              <option value="Maize">
+                Maize
+              </option>
+
+              <option value="Cotton">
+                Cotton
+              </option>
+
+              <option value="Soybean">
+                Soybean
+              </option>
+
+              <option value="Sugarcane">
+                Sugarcane
+              </option>
+
+              <option value="Tomato">
+                Tomato
+              </option>
+
+              <option value="Onion">
+                Onion
+              </option>
+
+              <option value="Potato">
+                Potato
+              </option>
+
+              <option value="Chilli">
+                Chilli
+              </option>
+
+              <option value="Turmeric">
+                Turmeric
+              </option>
+
+              <option value="Grapes">
+                Grapes
+              </option>
+
+              <option value="Pomegranate">
+                Pomegranate
+              </option>
+
+              <option value="Banana">
+                Banana
+              </option>
+
+              <option value="Orange">
+                Orange
+              </option>
+
+              <option value="Groundnut">
+                Groundnut
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- OTHER CROP -->
+          <div
+            class="field hidden"
+            id="otherCropField"
+          >
+
+            <label for="otherCrop">
+              Enter Your Crop
+            </label>
+
+            <input
+              id="otherCrop"
+              type="text"
+              placeholder="Enter crop name"
+            >
+
+          </div>
+
+
+          <!-- SOIL -->
+          <div class="field">
+
+            <label for="soil">
+              Soil Type
+            </label>
+
+            <select
+              id="soil"
+              required
+            >
+
+              <option value="">
+                Select Soil Type
+              </option>
+
+              <option value="Black Soil">
+                Black Soil
+              </option>
+
+              <option value="Red Soil">
+                Red Soil
+              </option>
+
+              <option value="Alluvial Soil">
+                Alluvial Soil
+              </option>
+
+              <option value="Loamy Soil">
+                Loamy Soil
+              </option>
+
+              <option value="Sandy Soil">
+                Sandy Soil
+              </option>
+
+              <option value="Clay Soil">
+                Clay Soil
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- IRRIGATION -->
+          <div class="field">
+
+            <label for="irrigation">
+              Irrigation Method
+            </label>
+
+            <select
+              id="irrigation"
+              required
+            >
+
+              <option value="">
+                Select Irrigation Method
+              </option>
+
+              <option value="Drip">
+                Drip
+              </option>
+
+              <option value="Sprinkler">
+                Sprinkler
+              </option>
+
+              <option value="Flood Irrigation">
+                Flood Irrigation
+              </option>
+
+              <option value="Furrow Irrigation">
+                Furrow Irrigation
+              </option>
+
+              <option value="Rainfed">
+                Rainfed
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- WEATHER -->
+          <div class="field">
+
+            <label for="weather">
+              Current Weather
+            </label>
+
+            <select
+              id="weather"
+              required
+            >
+
+              <option value="">
+                Select Current Weather
+              </option>
+
+              <option value="Sunny">
+                Sunny
+              </option>
+
+              <option value="Cloudy">
+                Cloudy
+              </option>
+
+              <option value="Rainy">
+                Rainy
+              </option>
+
+              <option value="Humid">
+                Humid
+              </option>
+
+              <option value="Hot">
+                Hot
+              </option>
+
+              <option value="Cool">
+                Cool
+              </option>
+
+              <option value="Windy">
+                Windy
+              </option>
+
+              <option value="Don't Know">
+                Don't Know
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- BUTTON -->
+          <div class="field full">
+
+            <div class="actions">
+
+              <button
+                type="submit"
+                class="primary"
+              >
+                💾 Save Farm Details
+              </button>
+
+              <button
+                type="button"
+                class="secondary"
+                id="cancelBtn"
+              >
+                Cancel
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+
+      <div
+        id="message"
+        class="message"
+        aria-live="polite"
+      ></div>
+
+
+      <div class="info">
+        💡 After saving, you will return to the Dashboard.
+        You can then ask different crop problems without logging out.
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+    "use strict";
+
+
+    // ---------------------------------------------
+    // STORAGE
+    // ---------------------------------------------
+
+    const USER_KEY = "loggedInUser";
+    const FARM_KEY = "farmContext";
+
+
+    // ---------------------------------------------
+    // ELEMENTS
+    // ---------------------------------------------
+
+    const farmForm =
+      document.getElementById("farmForm");
+
+    const farmerName =
+      document.getElementById("farmerName");
+
+    const locationSelect =
+      document.getElementById("location");
+
+    const otherLocation =
+      document.getElementById("otherLocation");
+
+    const otherLocationField =
+      document.getElementById(
+        "otherLocationField"
+      );
+
+    const cropSelect =
+      document.getElementById("crop");
+
+    const otherCrop =
+      document.getElementById("otherCrop");
+
+    const otherCropField =
+      document.getElementById(
+        "otherCropField"
+      );
+
+    const soil =
+      document.getElementById("soil");
+
+    const irrigation =
+      document.getElementById("irrigation");
+
+    const weather =
+      document.getElementById("weather");
+
+    const message =
+      document.getElementById("message");
+
+    const backBtn =
+      document.getElementById("backBtn");
+
+    const cancelBtn =
+      document.getElementById("cancelBtn");
+
+
+    // ---------------------------------------------
+    // USER
+    // ---------------------------------------------
+
+    let user = {};
+
+    try {
+
+      user =
+        JSON.parse(
+          localStorage.getItem(USER_KEY) || "{}"
+        );
+
+    } catch {
+
+      user = {};
+
+    }
+
+
+    if (!user.email) {
+
+      window.location.href = "/";
+
+    }
+
+
+    // ---------------------------------------------
+    // HELPER
+    // ---------------------------------------------
+
+    function clean(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+        return "";
+      }
+
+      return String(value).trim();
+
+    }
+
+
+    function showMessage(
+      text,
+      type = ""
+    ) {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+    }
+
+
+    // ---------------------------------------------
+    // LOAD USER NAME
+    // ---------------------------------------------
+
+    farmerName.value =
+      clean(
+        user.farmerName ||
+        user.name ||
+        user.fullName ||
+        ""
+      );
+
+
+    // ---------------------------------------------
+    // LOCATION DROPDOWN
+    // ---------------------------------------------
+
+    locationSelect.addEventListener(
+      "change",
+      function () {
+
+        if (
+          locationSelect.value === "Other"
+        ) {
+
+          otherLocationField.classList.remove(
+            "hidden"
+          );
+
+          otherLocation.required = true;
+
+        } else {
+
+          otherLocationField.classList.add(
+            "hidden"
+          );
+
+          otherLocation.required = false;
+
+          otherLocation.value = "";
+
+        }
+
+      }
+    );
+
+
+    // ---------------------------------------------
+    // CROP DROPDOWN
+    // ---------------------------------------------
+
+    cropSelect.addEventListener(
+      "change",
+      function () {
+
+        if (
+          cropSelect.value === "Other"
+        ) {
+
+          otherCropField.classList.remove(
+            "hidden"
+          );
+
+          otherCrop.required = true;
+
+        } else {
+
+          otherCropField.classList.add(
+            "hidden"
+          );
+
+          otherCrop.required = false;
+
+          otherCrop.value = "";
+
+        }
+
+      }
+    );
+
+
+    // ---------------------------------------------
+    // LOAD EXISTING FARM DETAILS
+    // ---------------------------------------------
+
+    function loadExistingFarm() {
+
+      let farm = null;
+
+      try {
+
+        farm =
+          JSON.parse(
+            localStorage.getItem(FARM_KEY) || "null"
+          );
+
+      } catch {
+
+        farm = null;
+
+      }
+
+
+      if (!farm) {
+        return;
+      }
+
+
+      farmerName.value =
+        clean(
+          farm.farmerName
+        );
+
+
+      const savedLocation =
+        clean(
+          farm.location
+        );
+
+
+      const locationExists =
+        Array.from(
+          locationSelect.options
+        ).some(
+          option =>
+            option.value === savedLocation
+        );
+
+
+      if (locationExists) {
+
+        locationSelect.value =
+          savedLocation;
+
+      } else if (savedLocation) {
+
+        locationSelect.value =
+          "Other";
+
+        otherLocationField.classList.remove(
+          "hidden"
+        );
+
+        otherLocation.required = true;
+
+        otherLocation.value =
+          savedLocation;
+
+      }
+
+
+      const savedCrop =
+        clean(
+          farm.crop ||
+          farm.mainCrop
+        );
+
+
+      const cropExists =
+        Array.from(
+          cropSelect.options
+        ).some(
+          option =>
+            option.value === savedCrop
+        );
+
+
+      if (cropExists) {
+
+        cropSelect.value =
+          savedCrop;
+
+      } else if (savedCrop) {
+
+        cropSelect.value =
+          "Other";
+
+        otherCropField.classList.remove(
+          "hidden"
+        );
+
+        otherCrop.required = true;
+
+        otherCrop.value =
+          savedCrop;
+
+      }
+
+
+      soil.value =
+        clean(
+          farm.soil ||
+          farm.soilType
+        );
+
+
+      irrigation.value =
+        clean(
+          farm.irrigation ||
+          farm.irrigationMethod
+        );
+
+
+      weather.value =
+        clean(
+          farm.weather ||
+          farm.currentWeather
+        );
+
+    }
+
+
+    loadExistingFarm();
+
+
+    // ---------------------------------------------
+    // GET FARM DATA
+    // ---------------------------------------------
+
+    function getFarmData() {
+
+      let finalLocation =
+        clean(
+          locationSelect.value
+        );
+
+
+      if (
+        finalLocation === "Other"
+      ) {
+
+        finalLocation =
+          clean(
+            otherLocation.value
+          );
+
+      }
+
+
+      let finalCrop =
+        clean(
+          cropSelect.value
+        );
+
+
+      if (
+        finalCrop === "Other"
+      ) {
+
+        finalCrop =
+          clean(
+            otherCrop.value
+          );
+
+      }
+
+
+      return {
+
+        farmerName:
+          clean(
+            farmerName.value
+          ),
+
+        location:
+          finalLocation,
+
+        crop:
+          finalCrop,
+
+        mainCrop:
+          finalCrop,
+
+        soil:
+          clean(
+            soil.value
+          ),
+
+        soilType:
+          clean(
+            soil.value
+          ),
+
+        irrigation:
+          clean(
+            irrigation.value
+          ),
+
+        irrigationMethod:
+          clean(
+            irrigation.value
+          ),
+
+        weather:
+          clean(
+            weather.value
+          ),
+
+        currentWeather:
+          clean(
+            weather.value
+          )
+
+      };
+
+    }
+
+
+    // ---------------------------------------------
+    // SAVE
+    // ---------------------------------------------
+
+    farmForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        const farm =
+          getFarmData();
+
+
+        // Extra validation
+        if (!farm.farmerName) {
+
+          showMessage(
+            "Please enter farmer name.",
+            "error"
+          );
+
+          farmerName.focus();
+
+          return;
+
+        }
+
+
+        if (!farm.location) {
+
+          showMessage(
+            "Please select farm location.",
+            "error"
+          );
+
+          locationSelect.focus();
+
+          return;
+
+        }
+
+
+        if (!farm.crop) {
+
+          showMessage(
+            "Please select main crop.",
+            "error"
+          );
+
+          cropSelect.focus();
+
+          return;
+
+        }
+
+
+        if (!farm.soil) {
+
+          showMessage(
+            "Please select soil type.",
+            "error"
+          );
+
+          soil.focus();
+
+          return;
+
+        }
+
+
+        if (!farm.irrigation) {
+
+          showMessage(
+            "Please select irrigation method.",
+            "error"
+          );
+
+          irrigation.focus();
+
+          return;
+
+        }
+
+
+        if (!farm.weather) {
+
+          showMessage(
+            "Please select current weather.",
+            "error"
+          );
+
+          weather.focus();
+
+          return;
+
+        }
+
+
+        // Save locally
+        localStorage.setItem(
+          FARM_KEY,
+          JSON.stringify(farm)
+        );
+
+
+        // Update logged-in user
+        user.farmerName =
+          farm.farmerName;
+
+        user.name =
+          farm.farmerName;
+
+        user.location =
+          farm.location;
+
+        user.crop =
+          farm.crop;
+
+        user.mainCrop =
+          farm.crop;
+
+        user.soil =
+          farm.soil;
+
+        user.irrigation =
+          farm.irrigation;
+
+        user.weather =
+          farm.weather;
+
+
+        localStorage.setItem(
+          USER_KEY,
+          JSON.stringify(user)
+        );
+
+
+        /*
+          Save to backend too.
+          If backend fails, local dashboard
+          data still remains available.
+        */
+
+        try {
+
+          const response =
+            await fetch(
+              "/api/profile",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+
+                  ...farm,
+
+                  email:
+                    user.email,
+
+                  userId:
+                    user.id ||
+                    user.userId ||
+                    user.email
+
+                })
+
+              }
+            );
+
+
+          const result =
+            await response.json()
+              .catch(() => ({}));
+
+
+          if (
+            result &&
+            result.user
+          ) {
+
+            localStorage.setItem(
+              USER_KEY,
+              JSON.stringify(
+                result.user
+              )
+            );
+
+          }
+
+        } catch (error) {
+
+          console.warn(
+            "Backend profile save warning:",
+            error
+          );
+
+        }
+
+
+        showMessage(
+          "Farm details saved successfully. Opening dashboard...",
+          "success"
+        );
+
+
+        setTimeout(
+          function () {
+
+            window.location.href =
+              "/dashboard.html";
+
+          },
+          500
+        );
+
+      }
+    );
+
+
+    // ---------------------------------------------
+    // BACK / CANCEL
+    // ---------------------------------------------
+
+    backBtn.addEventListener(
+      "click",
+      function () {
+
+        window.location.href =
+          "/dashboard.html";
+
+      }
+    );
+
+
+    cancelBtn.addEventListener(
+      "click",
+      function () {
+
+        window.location.href =
+          "/dashboard.html";
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Smart Farming - Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #eaf6ed;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2d6a4f;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #2d6a4f;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #2d6a4f;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-btn:hover {
+      background: #1b4332;
+    }
+
+    .register-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .register-link {
+      color: #2d6a4f;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .error {
+      background: #ffe5e5;
+      color: #b00020;
+    }
+
+    .success {
+      background: #d8f3dc;
+      color: #1b4332;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="logo">🌾</div>
+
+    <h1>Smart Farming</h1>
+
+    <p class="subtitle">
+      Login to your farming dashboard
+    </p>
+
+
+    <!-- MESSAGE -->
+    <div id="message" class="message"></div>
+
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
+
+      <label for="email">
+        Email
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      >
+
+
+      <label for="password">
+        Password
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Enter your password"
+        required
+      >
+
+
+      <button
+        type="submit"
+        class="login-btn"
+      >
+        Login
+      </button>
+
+    </form>
+
+
+    <p class="register-text">
+      Don't have an account?
+      <a
+        href="register.html"
+        class="register-link"
+      >
+        Register
+      </a>
+    </p>
+
+  </div>
+
+
+  <script>
+
+    // ==========================================
+    // MESSAGE FUNCTION
+    // ==========================================
+
+    function showMessage(message, type) {
+
+      const messageBox =
+        document.getElementById("message");
+
+      messageBox.textContent = message;
+
+      messageBox.className =
+        "message " + type;
+
+      messageBox.style.display = "block";
+    }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        // Get registered farmer
+        let farmerUser = null;
+
+        try {
+
+          farmerUser =
+            JSON.parse(
+              localStorage.getItem("farmerUser") || "null"
+            );
+
+        } catch (error) {
+
+          console.error(
+            "Farmer data error:",
+            error
+          );
+
+        }
+
+
+        // ==========================================
+        // CHECK USER
+        // ==========================================
+
+        if (!farmerUser) {
+
+          showMessage(
+            "Account not found. Please register first.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        // ==========================================
+        // CHECK EMAIL
+        // ==========================================
+
+        if (
+          email !==
+          String(farmerUser.email || "")
+            .trim()
+            .toLowerCase()
+        ) {
+
+          showMessage(
+            "Email is incorrect.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        // ==========================================
+        // CHECK PASSWORD
+        // ==========================================
+
+        if (
+          password !==
+          String(farmerUser.password || "")
+        ) {
+
+          showMessage(
+            "Password is incorrect.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        // ==========================================
+        // CREATE LOGIN SESSION
+        // ==========================================
+
+        const loggedInUser = {
+
+          name: farmerUser.name || "",
+
+          email: farmerUser.email || "",
+
+          phone: farmerUser.phone || "",
+
+          location: farmerUser.location || "",
+
+          crop: farmerUser.crop || "",
+
+          soil: farmerUser.soil || "",
+
+          irrigation: farmerUser.irrigation || "",
+
+          weather: farmerUser.weather || ""
+
+        };
+
+
+        localStorage.setItem(
+          "loggedInUser",
+          JSON.stringify(loggedInUser)
+        );
+
+        localStorage.setItem(
+          "loggedIn",
+          "true"
+        );
+
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
+
+        showMessage(
+          "Login successful! Opening dashboard...",
+          "success"
+        );
+
+
+        // Dashboard open
+        setTimeout(function() {
+
+          window.location.replace(
+            "dashboard.html"
+          );
+
+        }, 700);
+
+      });
+
+  </script>
+
+</body>
+</html>
